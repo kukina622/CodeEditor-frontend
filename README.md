@@ -1,4 +1,4 @@
-# code_editor
+# CodeEditor
 
 ## Project setup
 ```
