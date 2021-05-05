@@ -1,12 +1,8 @@
 <template>
   <v-app>
-
     <Navigation />
-    
     <v-main>
-
       <Editor />
-
     </v-main>
   </v-app>
 </template>
@@ -19,7 +15,8 @@ export default {
   name: "App",
 
   components: {
-    Editor,Navigation
+    Editor,
+    Navigation,
   },
 
   data: () => ({

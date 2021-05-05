@@ -1,8 +1,9 @@
 <template>
-  <codemirror 
-    v-model="code" 
+  <codemirror
+    ref="editor"
+    v-model="code"
     :options="cmOptions"
-    @ready="onCmReady" 
+    @ready="onCmReady"
   />
 </template>
 
@@ -20,6 +21,7 @@ import "codemirror/mode/python/python.js";
 //theme css
 import "codemirror/theme/monokai.css";
 import "codemirror/theme/neat.css";
+import "codemirror/theme/cobalt.css";
 
 //hint
 import "codemirror/addon/hint/show-hint.js";
@@ -29,6 +31,11 @@ import "codemirror/addon/selection/active-line.js";
 
 //other addon
 import "codemirror/addon/edit/closebrackets";
+import "codemirror/addon/comment/comment.js";
+
+// vuex
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -39,20 +46,16 @@ export default {
       code: "",
       cmOptions: {
         tabSize: 2,
-        mode: "text/x-python",
-        theme: "neat",
+        mode: "text/javascript",
+        theme: "default",
         lineNumbers: true,
         line: true,
         autoCloseBrackets: true,
         smartIndent: true,
         indentUnit: 2,
-      },
-      language: {
-        Javascript: "text/javascript",
-        Python: "text/x-python",
-        C: "text/x-csrc",
-        Java: "text/x-java",
-        "C++": "text/x-c++src",
+        extraKeys:{
+          'Ctrl-/' : 'toggleComment'
+        }
       },
     };
   },
@@ -64,5 +67,40 @@ export default {
       });
     },
   },
+  computed: {
+    ...mapState(["theme"]),
+    ...mapGetters(["editorLanguage"]),
+    codemirror() {
+      return this.$refs.editor.codemirror;
+    },
+    getUserCode() {
+      return this.codemirror.getValue();
+    },
+  },
+  watch: {
+    editorLanguage: function () {
+      this.codemirror.setOption("mode", this.editorLanguage);
+      this.codemirror.refresh();
+    },
+    theme:function(){
+      this.codemirror.setOption("theme", this.theme);
+    }
+  },
+  created(){
+    this.$bus.$on("runCode",()=>{
+      this.$store.commit('submitCode',this.getUserCode)
+    })
+  },
+  beforeDestroy(){
+    this.$bus.$off("runCode");
+  }
 };
 </script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap");
+
+.CodeMirror * {
+  font-family: "JetBrains Mono", monospace;
+}
+</style>
