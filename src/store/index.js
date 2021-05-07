@@ -15,6 +15,8 @@ export default new Vuex.Store({
       Java: "text/x-java",
       "C++": "text/x-c++src",
     },
+    compileResult:"",
+    compileStatus:"status"
   },
   mutations: {
     changeLanguage(state, newLanguage) {
@@ -25,6 +27,13 @@ export default new Vuex.Store({
     },
     submitCode(state,newCode){
       state.UserCode=newCode;
+    },
+    resultCode(state,compileResult){
+      state.compileStatus = compileResult.substr(0,1) === "1" ? "success" : "fail"
+      state.compileResult = compileResult.substr(2);
+    },
+    changeCompileStatus(state,compileStatus){
+      state.compileStatus=compileStatus
     }
   },
   actions: {},

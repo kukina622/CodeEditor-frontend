@@ -53,15 +53,15 @@ export default {
         autoCloseBrackets: true,
         smartIndent: true,
         indentUnit: 2,
-        extraKeys:{
-          'Ctrl-/' : 'toggleComment'
-        }
+        extraKeys: {
+          "Ctrl-/": "toggleComment",
+        },
       },
     };
   },
   methods: {
     onCmReady(cm) {
-      cm.setSize("80%", "100vh");
+      cm.setSize("100%", "100%");
       cm.on("keypress", () => {
         cm.showHint({ completeSingle: false });
       });
@@ -74,6 +74,7 @@ export default {
       return this.$refs.editor.codemirror;
     },
     getUserCode() {
+      console.log(this.codemirror.getValue())
       return this.codemirror.getValue();
     },
   },
@@ -82,18 +83,18 @@ export default {
       this.codemirror.setOption("mode", this.editorLanguage);
       this.codemirror.refresh();
     },
-    theme:function(){
+    theme: function () {
       this.codemirror.setOption("theme", this.theme);
-    }
+    },
   },
-  created(){
-    this.$bus.$on("runCode",()=>{
-      this.$store.commit('submitCode',this.getUserCode)
-    })
+  created() {
+    this.$bus.$on("runCode", () => {
+      this.$store.commit("submitCode", this.getUserCode);
+    });
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.$bus.$off("runCode");
-  }
+  },
 };
 </script>
 
@@ -102,5 +103,10 @@ export default {
 
 .CodeMirror * {
   font-family: "JetBrains Mono", monospace;
+}
+.vue-codemirror {
+  width: 75%;
+  height: Calc(100%-64px);
+  display: inline-block;
 }
 </style>

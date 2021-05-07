@@ -22,7 +22,13 @@
         />
       </div>
 
-      <v-btn color="#9CCC65" class="mr-3" height="40px" outlined @click="runCode">
+      <v-btn
+        color="#9CCC65"
+        class="mr-3"
+        height="40px"
+        outlined
+        @click="runCode"
+      >
         <v-icon color="#9CCC65"> mdi-play </v-icon>
         Run
       </v-btn>
@@ -42,13 +48,23 @@ export default {
       selectedTheme: "default",
     };
   },
-  methods:{
-    runCode(){
+  methods: {
+    async runCode() {
       this.$bus.$emit("runCode");
-    }
+      let postData = { language: this.language, UserCode: this.UserCode };
+      this.$store.commit("changeCompileStatus","loading")
+      await this.axios.post("/compiler", postData)
+      .then((res) => {
+        let status = res.data.status;
+        let compileResult=res.data.compileResult;
+        if (status){
+          this.$store.commit("resultCode",compileResult);
+        }
+      });
+    },
   },
-  computed:{
-    ...mapState(["language","UserCode"])
+  computed: {
+    ...mapState(["language", "UserCode"]),
   },
   watch: {
     selectedLanguage() {
@@ -58,7 +74,6 @@ export default {
       this.$store.commit("changeTheme", this.selectedTheme);
     },
   },
-
 };
 </script>
 
