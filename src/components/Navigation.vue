@@ -51,7 +51,7 @@ export default {
   methods: {
     async runCode() {
       this.$bus.$emit("runCode");
-      let postData = { language: this.language, UserCode: this.UserCode };
+      let postData = { language: this.language, UserCode: this.UserCode, UserInput:this.UserInput };
       this.$store.commit("changeCompileStatus","loading")
       await this.axios.post("/compiler", postData)
       .then((res) => {
@@ -64,7 +64,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["language", "UserCode"]),
+    ...mapState(["language", "UserCode","UserInput"]),
   },
   watch: {
     selectedLanguage() {

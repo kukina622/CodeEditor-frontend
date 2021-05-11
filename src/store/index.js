@@ -8,6 +8,7 @@ export default new Vuex.Store({
     language: "JavaScript",
     theme: "default",
     UserCode: "",
+    UserInput:"",
     AllLanguage: {
       JavaScript: "text/javascript",
       Python: "text/x-python",
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     submitCode(state,newCode){
       state.UserCode=newCode;
+    },
+    submitInput(state,newInput){
+      state.UserInput=newInput
     },
     resultCode(state,compileResult){
       state.compileStatus = compileResult.substr(0,1) === "1" ? "success" : "fail"

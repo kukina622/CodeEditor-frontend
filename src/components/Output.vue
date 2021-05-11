@@ -23,8 +23,8 @@ export default {
 <style scoped>
 .outerOutput {
   display: inline-flex;
-  width: 25%;
-  height: 100vh;
+  width: 100%;
+  height: 50vh;
   flex-direction: column;
 }
 .output{

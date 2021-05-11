@@ -4,7 +4,10 @@
     <v-main>
       <div class="contain">
         <Editor />
-        <Output />
+        <div class="std">
+          <Output />
+          <UserInput />
+        </div>
       </div>
     </v-main>
   </v-app>
@@ -14,6 +17,7 @@
 import Editor from "./components/Editor";
 import Navigation from "./components/Navigation";
 import Output from "./components/Output";
+import UserInput from "./components/userInput.vue";
 export default {
   name: "App",
 
@@ -21,6 +25,7 @@ export default {
     Editor,
     Navigation,
     Output,
+    UserInput,
   },
 
   data: () => ({
@@ -30,7 +35,12 @@ export default {
 </script>
 
 <style scoped>
-.contain{
+.contain {
   display: flex;
+}
+.std{
+  display: flex;
+  flex-direction: column;
+  width: 25%;
 }
 </style>
